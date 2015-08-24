@@ -1,4 +1,4 @@
-OUTPATH=out.mpg
+OUTPATH=out.mp4
 DURATION=-1
 BITRATE=8000000
 
@@ -12,16 +12,16 @@ GST_DEBUG=3 gst-launch-1.0 -e \
     rate-control=vbr \
     num-reorder-frames=2 \
     entropy=cabac \
-    fixed-framerate=TRUE \
+    fixed-framerate=true \
   cam.vidsrc \
     ! video/x-h264,width=1920,height=1080,framerate=30/1,profile=high \
+    ! h264parse \
     ! tee name=vid \
   vid. \
     ! queue \
-    ! mpegtsmux \
+    ! mp4mux faststart=true \
     ! filesink location=$OUTPATH \
   vid. \
     ! queue \
-    ! vaapiparse_h264 \
     ! vaapidecode \
     ! vaapisink fullscreen=true
