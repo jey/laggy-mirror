@@ -2,6 +2,8 @@ GST_DEBUG=3
 OUTPATH=out.mp4
 
 GST_DEBUG=$GST_DEBUG gst-launch-1.0 -e \
+  mp4mux name=outf faststart=true \
+    ! filesink location=$OUTPATH sync=false \
   uvch264src \
     name=cam \
     auto-start=true \
@@ -29,7 +31,5 @@ GST_DEBUG=$GST_DEBUG gst-launch-1.0 -e \
     ! queue \
     ! vaapidecode \
     ! vaapisink fullscreen=true \
-  mp4mux name=outf faststart=true \
-    ! filesink location=$OUTPATH sync=false \
   ;
 exit $?
